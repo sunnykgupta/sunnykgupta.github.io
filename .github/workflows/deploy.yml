@@ -1,0 +1,75 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: One-time source bootstrap
+        # The first run pulls the site source into the repo and commits it.
+        # Once packages/ exists this step does nothing, so your later commits
+        # are never overwritten.
+        run: |
+          if [ -d packages ]; then
+            echo "Source already in the repo. Skipping bootstrap."
+            exit 0
+          fi
+          curl -fsSL -o /tmp/src.tar.gz "https://storage.googleapis.com/runable-templates/cli-uploads%2Ff38USJMZZ8QXXLfoR9llyt8B7USsjGGn%2FzysmPZvZr64KfU7FwX3AO%2Fsrc.tar.gz"
+          tar -xzf /tmp/src.tar.gz -C .
+          rm -f docs/scope-probe.md
+          rmdir docs 2>/dev/null || true
+          git config user.name "Sunny R Gupta"
+          git config user.email "sunnykgupta@users.noreply.github.com"
+          git add -A -- ':!.github'
+          git commit -m "Sunny Quest: retro 16-bit playable personal site"
+          git push
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build web
+        run: bun run build:web
+
+      - name: Add SPA fallback and disable Jekyll
+        # Pages serves 404.html for unknown paths. Copying index.html there
+        # lets a client-side route like /about work on a direct hit.
+        run: |
+          cp packages/web/dist/index.html packages/web/dist/404.html
+          touch packages/web/dist/.nojekyll
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: packages/web/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
