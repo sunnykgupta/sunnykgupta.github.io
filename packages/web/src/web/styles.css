@@ -1,0 +1,308 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-ink: #0b0817;
+  --color-deep: #15112b;
+  --color-panel: #241a45;
+  --color-panel2: #35275f;
+  --color-gold: #ffc94a;
+  --color-coral: #ff6e4d;
+  --color-cyan: #6ee7ff;
+  --color-lime: #7ee787;
+  --color-parchment: #f4ecff;
+  --color-muted: #a99ad6;
+  --font-display: "Silkscreen", ui-monospace, monospace;
+  --font-title: "Press Start 2P", ui-monospace, monospace;
+  --font-body: "DotGothic16", ui-monospace, monospace;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted-token: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 0px;
+  --background: #0b0817;
+  --foreground: #f4ecff;
+  --card: #241a45;
+  --card-foreground: #f4ecff;
+  --popover: #241a45;
+  --popover-foreground: #f4ecff;
+  --primary: #ffc94a;
+  --primary-foreground: #15112b;
+  --secondary: #35275f;
+  --secondary-foreground: #f4ecff;
+  --muted: #a99ad6;
+  --accent: #ff6e4d;
+  --accent-foreground: #15112b;
+  --destructive: #ff4d6d;
+  --border: #35275f;
+  --input: #35275f;
+  --ring: #ffc94a;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html,
+  body {
+    background: var(--color-ink);
+    color: var(--color-parchment);
+    -webkit-font-smoothing: none;
+    font-smooth: never;
+  }
+  body {
+    font-family: var(--font-body);
+    overscroll-behavior: none;
+  }
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-deep);
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+    line-height: 1.45;
+  }
+  button {
+    font-family: var(--font-display);
+    cursor: pointer;
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+@utility font-body {
+  font-family: var(--font-body);
+}
+
+@utility font-title {
+  font-family: var(--font-title);
+}
+
+/* ---------- pixel chrome ---------- */
+
+@utility pixel-frame {
+  background: var(--color-panel);
+  box-shadow:
+    0 -4px 0 0 var(--color-panel2),
+    0 4px 0 0 var(--color-panel2),
+    -4px 0 0 0 var(--color-panel2),
+    4px 0 0 0 var(--color-panel2),
+    0 -8px 0 0 #0b0817,
+    0 8px 0 0 #0b0817,
+    -8px 0 0 0 #0b0817,
+    8px 0 0 0 #0b0817;
+}
+
+@utility pixel-frame-gold {
+  background: var(--color-panel);
+  box-shadow:
+    0 -4px 0 0 var(--color-gold),
+    0 4px 0 0 var(--color-gold),
+    -4px 0 0 0 var(--color-gold),
+    4px 0 0 0 var(--color-gold),
+    0 -8px 0 0 #0b0817,
+    0 8px 0 0 #0b0817,
+    -8px 0 0 0 #0b0817,
+    8px 0 0 0 #0b0817;
+}
+
+@utility pixel-btn {
+  position: relative;
+  background: var(--color-panel2);
+  color: var(--color-parchment);
+  box-shadow:
+    inset -3px -3px 0 0 #14102a,
+    inset 3px 3px 0 0 #4d3b85,
+    0 0 0 3px #0b0817;
+  transition:
+    transform 60ms steps(2),
+    background 120ms steps(2),
+    color 120ms steps(2);
+}
+
+@utility pixel-btn-active {
+  background: var(--color-gold);
+  color: #15112b;
+  box-shadow:
+    inset -3px -3px 0 0 #b8862a,
+    inset 3px 3px 0 0 #ffe6a8,
+    0 0 0 3px #0b0817;
+}
+
+.pixel-btn:hover {
+  background: var(--color-panel2);
+  filter: brightness(1.25);
+}
+.pixel-btn:active {
+  transform: translateY(2px);
+}
+.pixel-btn-active:hover {
+  filter: brightness(1.08);
+}
+
+/* ---------- CRT effects ---------- */
+
+.crt-scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.16) 0px,
+    rgba(0, 0, 0, 0.16) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  z-index: 60;
+  mix-blend-mode: multiply;
+}
+
+.crt-vignette::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(4, 2, 12, 0.75) 100%);
+  z-index: 55;
+}
+
+.pixelated {
+  image-rendering: pixelated;
+}
+
+/* ---------- animations ---------- */
+
+@keyframes blink-step {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.anim-blink {
+  animation: blink-step 1s steps(1, end) infinite;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+.anim-bob {
+  animation: bob 1.6s steps(2, end) infinite;
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.anim-float {
+  animation: float-slow 2.4s steps(4, end) infinite;
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.anim-pop {
+  animation: pop-in 160ms steps(3, end) both;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+.anim-shake {
+  animation: shake 220ms steps(2, end) 1;
+}
+
+@keyframes star-rise {
+  0% {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+}
+.anim-star {
+  animation: star-rise 1.4s steps(8, end) 1 forwards;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-panel2) var(--color-ink);
+}
