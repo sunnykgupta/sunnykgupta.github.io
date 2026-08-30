@@ -1,19 +1,48 @@
-# App template
+# Sunny Quest
 
-Runable copies this Bun and Turborepo project into each new sandbox.
+A retro 16-bit game you play to learn about Sunny R Gupta.
 
-The root package commands are the external contract:
+Live at [sunnykgupta.com](https://sunnykgupta.com).
 
-- `bun run dev` starts the web app.
-- `bun run dev:desktop` and `bun run dev:mobile` start platform clients.
-- `bun run build` builds every package.
-- `bun run start` starts or restarts the production server.
-- `bun run stop` stops the production server.
-- `bun run lint` and `bun run typecheck` validate the project.
-- The `db:generate`, `db:migrate`, and `db:push` commands manage the database.
+## What it is
 
-Deployment tools depend on these command names. Their implementations may change, but the names must remain stable.
+Seven zones, three boss fights, 32 facts to discover. Everything is client side.
+There is no API and no database, so the built output is a static site that any
+static host can serve. Progress is saved in `localStorage`.
 
-The web package owns the API, database, and shared web interface. The mobile package is an Expo client. The desktop package is an Electron shell around the web app. Services use the fixed ports defined in `__ports.cjs`, and the web health endpoint is `/api/health`.
+## Stack
 
-Secrets belong in the root `.env` file. Browser values must use the `VITE_` prefix. Commands prefixed with `internal:` are for template maintenance.
+Bun workspaces, Vite, React 19, Wouter, Tailwind CSS 4.
+
+## Running it
+
+```bash
+bun install
+bun run dev        # serves on the port fixed in __ports.cjs
+```
+
+## Checks and build
+
+```bash
+bun run lint
+bun run typecheck
+bun run build      # output in packages/web/dist
+```
+
+## Where things live
+
+| Path | What |
+| --- | --- |
+| `packages/web/src/web/pages/index.tsx` | Screen state machine: title, hub, zone, boss |
+| `packages/web/src/web/lib/game/content.ts` | All zones, facts, bosses, dialogue |
+| `packages/web/src/web/lib/game/sprites.ts` | Hand authored pixel art and palette |
+| `packages/web/src/web/lib/game/audio.ts` | Music, cross fades, sound effects, mute |
+| `packages/web/src/web/components/game/` | Title, hub, zone, boss, panels, HUD |
+| `packages/web/public/audio/` | Music and sound effect files |
+| `packages/web/assets-src/assets.json` | Manifest of binary assets restored at build time |
+| `design.md` | Colors, typography, voice |
+
+## Deployment
+
+GitHub Actions builds `packages/web/dist` and publishes it to GitHub Pages. See
+`.github/workflows/deploy.yml`.
