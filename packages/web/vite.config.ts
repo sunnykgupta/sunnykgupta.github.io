@@ -5,6 +5,7 @@ import path from "path";
 import runableAnalyticsPlugin from "./vite/__plugins/runable-analytics-plugin";
 import honoDevPlugin from "./vite/__plugins/hono-dev-plugin";
 import assetOptimizerPlugin from "./vite/__plugins/asset-optimizer-plugin";
+import decodeAssetsPlugin from "./vite/plugins/decode-assets";
 import ports from "../../__ports.cjs";
 
 const root = path.resolve(__dirname, "../..");
@@ -14,10 +15,11 @@ export default defineConfig(({ mode }) => {
   Object.assign(process.env, env);
 
   return {
-    // All env files live at the repo root — keep Vite's own env loading there too,
-    // so packages/web/.env* files can never shadow the root .env.
+    // All env files live at the repo root, so keep Vite's own env loading there
+    // too and packages/web/.env* files can never shadow the root .env.
     envDir: root,
     plugins: [
+      decodeAssetsPlugin(),
       honoDevPlugin(),
       react(),
       runableAnalyticsPlugin(),
