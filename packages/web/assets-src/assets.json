@@ -1,0 +1,15 @@
+{
+  "comment": "Binary public assets. This repo can only receive text commits, so each binary is fetched and hash-verified into packages/web/public at build time by vite/plugins/decode-assets.ts.",
+  "assets": [
+    {
+      "file": "og-image.png",
+      "url": "https://storage.googleapis.com/runable-templates/cli-uploads%2Ff38USJMZZ8QXXLfoR9llyt8B7USsjGGn%2FLRHzFAupExcas4SiauqKo%2Fog-image.png",
+      "sha256": "438e75c71d46a3d0a860ee1b2c2d158889de8387a010fd07e4881820fa47a35d"
+    },
+    {
+      "file": "favicon.ico",
+      "url": "https://storage.googleapis.com/runable-templates/cli-uploads%2Ff38USJMZZ8QXXLfoR9llyt8B7USsjGGn%2FZzWfH8mePX-cokUOTtdul%2Ffavicon.ico",
+      "sha256": "43bf96503674f90e88e7d339c5030fa2660de29b12d09a72796f32552e087c08"
+    }
+  ]
+}
