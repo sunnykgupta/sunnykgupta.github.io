@@ -705,7 +705,7 @@ export const ZONES: Zone[] = [
         sprite: "globe",
         name: "Global Stakeholders",
         lines: [
-          "My desk is in Bengaluru and my stakeholders are spread across the world. Product sits in one timezone, business in another, and users are everywhere.",
+          "My desk is in Mumbai and my stakeholders are spread across the world. Product sits in one timezone, business in another, and users are everywhere.",
           "You learn to write things down, decide without waiting for a meeting, and share more context than feels necessary. A timezone is not an excuse.",
         ],
         fact: { id: "global", label: "Works with global stakeholders across timezones" },

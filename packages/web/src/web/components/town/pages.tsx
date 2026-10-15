@@ -62,7 +62,7 @@ export function HomePage() {
           <br />
           Fuelled by conversation.
           <br />
-          Bengaluru, India ↗
+          Mumbai, India ↗
         </div>
       </header>
       <section className="town-world" aria-label="Explore Sunny’s Town">
@@ -467,7 +467,7 @@ export function AboutPage() {
       <PageIntro
         eyebrow="At home with Sunny"
         title="Builder. Community host. Always a student."
-        location="Bengaluru, India"
+        location="Mumbai, India"
       >
         <p>
           I’m Sunny R Gupta. I work in engineering, run communities, and share what I learn along

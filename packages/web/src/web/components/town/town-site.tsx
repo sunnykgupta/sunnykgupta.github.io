@@ -89,7 +89,7 @@ export default function TownSite() {
         </main>
         <footer className="site-footer">
           <span>A little corner of my internet.</span>
-          <span>Sunny R Gupta · Bengaluru</span>
+          <span>Sunny R Gupta · Mumbai</span>
           <Link href="/about">
             About & contact <span aria-hidden="true">↗</span>
           </Link>
