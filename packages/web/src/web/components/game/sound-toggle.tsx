@@ -7,7 +7,12 @@ import { audio } from "../../lib/game/audio";
 export function SoundToggle() {
   const [muted, setMuted] = useState(() => audio.isMuted());
 
-  useEffect(() => audio.subscribe(() => setMuted(audio.isMuted())), []);
+  useEffect(() => {
+    const unsubscribe = audio.subscribe(() => setMuted(audio.isMuted()));
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const toggle = useCallback(() => {
     audio.toggleMuted();

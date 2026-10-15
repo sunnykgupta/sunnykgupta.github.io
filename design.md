@@ -1,76 +1,53 @@
-# Sunny Quest — Design
+# Sunny’s Town
 
-A 16-bit SNES-style RPG portfolio for Sunny R Gupta, shipping on web (single Vite/React app).
-Visitors pick a zone from a pixel hub, walk a sprite around a room, talk to props and NPCs, and
-each conversation unlocks one grounded fact about Sunny. Three boss fights cover scale work.
-A `SKIP` route (`/about`) gives recruiters the same story as a clean scrollable page.
+The main website is an accessible, browsable neighbourhood. Pixel artwork provides the game personality; ordinary links, visible labels, and readable pages provide the navigation. No visitor needs to walk a character, complete a quest, or unlock content.
 
-## Brand & Colors
+## Midnight arcade
 
-Web tokens live in `packages/web/src/web/styles.css` (`@theme` block). Dusk-indigo base, warm gold
-and coral accents, cyan/lime for UI feedback. Deliberately limited, SNES-palette feel.
+The approved palette is scoped to `.town-site` in `components/town/town.css`.
 
-| Token | Value | Use |
-|-------|-------|-----|
-| ink | #0b0817 | Page background, outside the CRT |
-| deep | #15112b | Screen background |
-| panel | #241a45 | Dialogue boxes, cards |
-| panel2 | #35275f | Panel highlights, borders, hover |
-| gold | #ffc94a | Primary accent: headings, XP, selection |
-| coral | #ff6e4d | Secondary accent: player, boss HP, CTAs |
-| cyan | #6ee7ff | Links, interactive hints |
-| lime | #7ee787 | Discovered / success states |
-| parchment | #f4ecff | Primary text |
-| muted | #a99ad6 | Secondary text |
+| Color      | Value     | Use                              |
+| ---------- | --------- | -------------------------------- |
+| Midnight   | `#101827` | Page background                  |
+| Panel      | `#1b2940` | Cards and town interface         |
+| Ink        | `#f1f5ff` | Primary text                     |
+| Muted text | `#b3c4dc` | Descriptions and supporting text |
+| Border     | `#354966` | Structure and pixel frames       |
+| Mint       | `#88e4d6` | Town and Projects actions        |
+| Coral      | `#f28387` | Communities actions              |
+| Lavender   | `#b5a6ee` | Writing & Videos actions         |
 
-Zone palettes (floor/wall/accent triples) live in `lib/game/content.ts` so each room reads as its
-own biome: bedroom warm brown, startup office teal, lab violet, scale tower steel-blue, war room
-navy, guild hall gold, café warm amber.
+Use DM Sans for headings, prose, and controls. Use Silkscreen for the wordmark, compact section labels, and town signs. The original game retains its existing fonts, palette, and styles.
 
-## Typography
+## Navigation and grouping
 
-Readability comes first. The old pairing (Press Start 2P everywhere plus VT323 body) looked retro
-but was hard to read, so it was replaced.
+The homepage has four labelled destinations: Communities, Projects, Writing & Videos, and About. Every destination is also present in the main navigation. On phones, the map becomes a decorative scene above large destination links.
 
-- **Logo only:** `Press Start 2P` via the `font-title` utility. Used for the SUNNY QUEST title
-  screen logo and nothing else.
-- **Display / UI:** `Silkscreen` (`--font-display`, the default). Headings, menus, HUD, buttons,
-  labels. Pixel-shaped but readable. Never below 12px. Labels 12 to 16px, headings 16 to 26px.
-- **Body / dialogue:** `DotGothic16` (`--font-body`, the `font-body` utility). Dialogue,
-  descriptions, about-page prose. 18 to 23px with relaxed line height.
-- Loaded from Google Fonts in `packages/web/index.html`.
+Communities have their own pages and associated projects. `lib/town/content.ts` is the source of truth: a project’s `communityId` makes it appear under that community as well as in Projects. The library groups publishing homes and series by format. It links to the original publishing platforms.
 
-## Voice
+The About page retains the existing background, principles, career timeline, and contact links. “Play my story” links to the original Sunny Quest at `/play`.
 
-Copy is written the way Sunny writes. Short, fully formed sentences. Plain words. No em-dashes and
-no en-dashes anywhere in user-facing text. Date ranges read "2019 to 2023".
+## Artwork and interaction
 
-## Pixel-art system
+`components/town/art/` contains hand-authored pixel scenes painted into canvas. Canvas is decorative; labels and links remain semantic HTML. The town has residents, a café, workshop, library, home, fountain, gardens, and a clickable cat. Short, optional interactions never hide useful content.
 
-No image assets. Every sprite is authored as rows of palette chars in `lib/game/sprites.ts` and
-rendered by `components/game/pixel-sprite.tsx` as a single div using `box-shadow` pixels — sharp at
-any scale, tintable per instance (`tint` remaps the accent char). Terrain is a CSS grid of tile divs.
-The room viewport is a fixed logical size (19×11 tiles × 24px) scaled with `transform: scale()` to
-fit the container, so the pixel grid never fractions.
+Town animation has a pause control, honours `prefers-reduced-motion`, and stops drawing when offscreen or when the document is hidden. Window lighting and motion preferences persist safely in localStorage. The main website does not play audio. Leaving the optional game stops its music.
 
-## Pages & Screens
+## Accessibility and hosting
 
-- **Web — Game** (`pages/index.tsx`) — state machine: `title → hub → zone → boss / youtube / saves / achievements`.
-- **Web — About** (`pages/about.tsx`) — long-form scrollable version of the same story, for recruiters and SEO.
-- Screens live in `components/game/`: `title-screen`, `hub-screen`, `zone-screen`, `dialogue-box`,
-  `boss-fight`, `achievements-panel`, `save-file`, `youtube-panel`, `touch-controls`, `hud`.
+- Visible navigation and descriptive links, with no hover-only content.
+- Native buttons, fieldsets, and output elements for filters and status.
+- A skip link, visible keyboard focus, and heading focus after route changes.
+- Real, shareable paths and a helpful unknown-route page.
+- Responsive content down to 320px, with touch-sized controls.
+- Physical entry files for known paths on GitHub Pages, plus a 404 fallback.
 
-## Key User Flows
+## Voice and content
 
-1. Title → `PRESS START` → hub map with 7 zones and per-zone completion bars.
-2. Enter zone → walk with arrows/WASD (or on-screen D-pad) → stand next to a prop → `A`/Space →
-   dialogue → last line unlocks a fact, HUD counter and zone bar update, progress saved to localStorage.
-3. Scale Tower → boss door → pick engineering "moves"; real mitigations damage the boss, cargo-cult
-   moves raise the load meter. Win → facts unlocked.
-4. Any screen → `SAVE FILE` for links/resume, `ACHIEVEMENTS` for the fact log, `SKIP` for `/about`.
+Use short, fully formed sentences in Sunny’s voice. Use plain words and avoid em-dashes and en-dashes in public copy. Career dates read “2019 to 2023”. Claims, project names, articles, and external destinations must come from supplied or verified material. Do not invent projects, event dates, testimonials, metrics, or article titles to fill the layout.
 
-## Architecture
+The current catalogue uses the existing community, series, writing, and professional information. Add further work through the central data catalogue.
 
-- Fully client-side: no API calls, no database — the site must be able to sit on a static host
-  (sunnykgupta.github.io). Progress persists in `localStorage` under `sunny-quest:v1`.
-- Content is data, not markup: zones, entities, dialogue, facts and bosses in `lib/game/content.ts`.
+## Original game
+
+Sunny Quest remains client-side at `/play`, with its seven zones, boss fights, dialogue, sound controls, and existing `sunny-quest:v1` saved progress. Its styles stay separate from the new town. The game is optional and does not gate any main-site content.
